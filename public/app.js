@@ -57,7 +57,7 @@
   const language = document.getElementById("language");
   const topic = document.getElementById("topic");
   const error = document.getElementById("error");
-  const apiStatus = document.getElementById("api-status");
+
   const themeToggle = document.getElementById("theme-toggle");
   const visualSource = document.getElementById("visual-source");
   const visualTone = document.getElementById("visual-tone");
@@ -113,10 +113,7 @@
     revealLabel.textContent = isLoading ? "Revealing..." : "Reveal";
   }
 
-  function setStatus(text, state) {
-    apiStatus.textContent = text;
-    apiStatus.dataset.state = state;
-  }
+
 
   function formatQuote(item) {
     const quote = item.quote || "";
@@ -243,21 +240,7 @@
     showToast("Shuffled");
   }
 
-  async function checkHealth() {
-    setStatus("Checking", "checking");
-    try {
-      const response = await fetch("/health", { cache: "no-store" });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const data = await response.json();
-      if (data.hasKey) {
-        setStatus("Ready", "ready");
-      } else {
-        setStatus("Needs key", "warning");
-      }
-    } catch (_) {
-      setStatus("Offline", "error");
-    }
-  }
+
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -295,7 +278,6 @@
       setError("The mirror is unreachable. Try again when the server is online.");
     } finally {
       setLoading(false);
-      checkHealth();
     }
   }
 
@@ -404,5 +386,4 @@
   syncVisualLabels();
   renderQuote(currentQuote);
   renderHistory();
-  checkHealth();
 })();
