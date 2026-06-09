@@ -1,41 +1,63 @@
-# Mirror of Truth
+# 🪞 Mirror of Truth
 
-A deployable Express web app with a polished static frontend and an Anthropic-powered quote API.
+> A mirror that does not flatter. Stark philosophical reflections, shaped by tradition, language, tone, and subject.
 
-## Run Locally
+![Netlify Ready](https://img.shields.io/badge/Netlify-Ready-00C7B7?style=flat-square&logo=netlify)
+![Powered by Gemini](https://img.shields.io/badge/Powered%20by-Google%20Gemini-blue?style=flat-square&logo=google)
 
-```bash
-npm install
-cp .env.example .env
-npm run dev
-```
+**Mirror of Truth** is an AI-powered oracle application that provides stark, unflattering, and profound philosophical reflections. Unlike standard AI chatbots that aim to please, this application is designed to deliver raw and thought-provoking truths using the Google Gemini API.
 
-Set `ANTHROPIC_API_KEY` in `.env`, then open `http://localhost:3000`.
+## ✨ Features
 
-## Deploy
+- **Interactive 3D UI**: The application features a stunning, interactive 3D mirror that physically "flips" to reveal your generated reflection on its dark, glassmorphic backface.
+- **Powered by Google Gemini**: Leverages `gemini-2.5-flash-lite` (or any compatible Gemini model) to generate lightning-fast, highly contextual philosophical insights.
+- **Customizable Oracles**: Choose the tradition (e.g., Stoicism, Nihilism), tone (e.g., Quietly Devastating), and language to tailor the philosophical sting.
+- **Fully Responsive**: A responsive layout that seamlessly adapts from desktop widescreen down to a mobile smartphone view without breaking immersion.
+- **Netlify Serverless Ready**: Architected to run flawlessly on Netlify using `serverless-http`.
 
-Use any Node host that supports Express apps.
+## 🚀 Local Development
 
-```bash
-npm ci
-npm start
-```
+### Prerequisites
+- Node.js (v18+)
+- A [Google Gemini API Key](https://aistudio.google.com/)
 
-Required environment variable:
+### Setup
 
-```bash
-ANTHROPIC_API_KEY=...
-```
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Tars2927/mirrorU.git
+   cd mirrorU
+   ```
 
-Useful optional variables:
+2. **Install Dependencies**
+   ```bash
+   npm install
+   ```
 
-```bash
-PORT=3000
-NODE_ENV=production
-ANTHROPIC_MODEL=claude-sonnet-4-20250514
-ALLOWED_ORIGINS=https://your-domain.com
-RATE_LIMIT_MAX=40
-RATE_LIMIT_WINDOW_MS=900000
-```
+3. **Environment Variables**
+   Create a `.env` file in the root directory and add your API key:
+   ```env
+   GEMINI_API_KEY=your_gemini_api_key_here
+   GEMINI_MODEL=gemini-2.5-flash-lite # Optional
+   PORT=3000 # Optional
+   ```
 
-The frontend is served from `public/`. The API endpoints are `GET /health` and `POST /api/quote`.
+4. **Run the Application**
+   ```bash
+   npm run dev
+   ```
+   Open `http://localhost:3000` in your browser.
+
+## ☁️ Deploying to Netlify
+
+This project is pre-configured for seamless deployment to Netlify via Netlify Functions.
+
+1. Push your repository to GitHub.
+2. Go to your [Netlify Dashboard](https://app.netlify.com) and click **Add new site** -> **Import an existing project**.
+3. Select this repository. Netlify will automatically detect the settings provided in `netlify.toml`.
+4. Go to **Site Configuration** > **Environment Variables** in Netlify.
+5. Add a new variable: `GEMINI_API_KEY` and set it to your real API key.
+6. Click **Deploy**!
+
+---
+*Built with Express.js, Vanilla HTML/CSS/JS, and Google Generative AI.*
