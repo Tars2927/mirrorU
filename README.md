@@ -10,7 +10,7 @@
 ## ✨ Features
 
 - **Interactive 3D UI**: The application features a stunning, interactive 3D mirror that physically "flips" to reveal your generated reflection on its dark, glassmorphic backface.
-- **Powered by Groq & Llama 3**: Leverages `llama3-8b-8192` (or any compatible Groq model) to generate lightning-fast, highly contextual philosophical insights instantly.
+- **Powered by Groq & Llama 3**: Leverages `llama-3.1-8b-instant` (or any compatible Groq model) to generate lightning-fast, highly contextual philosophical insights instantly.
 - **Customizable Oracles**: Choose the tradition (e.g., Stoicism, Nihilism), tone (e.g., Quietly Devastating), and language to tailor the philosophical sting.
 - **Fully Responsive**: A responsive layout that seamlessly adapts from desktop widescreen down to a mobile smartphone view without breaking immersion.
 - **Netlify Serverless Ready**: Architected to run flawlessly on Netlify using `serverless-http`.
@@ -38,7 +38,7 @@
    Create a `.env` file in the root directory and add your API key:
    ```env
    GROQ_API_KEY=your_groq_api_key_here
-   GROQ_MODEL=llama3-8b-8192 # Optional
+   GROQ_MODEL=llama-3.1-8b-instant # Optional
    PORT=3000 # Optional
    ```
 

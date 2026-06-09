@@ -114,7 +114,7 @@ if (!apiKey) {
 }
 const groq = new Groq({ apiKey: apiKey || 'missing-placeholder' });
 
-const MODEL = process.env.GROQ_MODEL || 'llama3-8b-8192';
+const MODEL = process.env.GROQ_MODEL || 'llama-3.1-8b-instant';
 
 const SYSTEM_PROMPT =
   "You are a timeless voice of ancient wisdom - unflinching and merciless with truth. " +
