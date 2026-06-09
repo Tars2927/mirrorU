@@ -274,6 +274,13 @@
           minute: "2-digit"
         }).format(new Date())
       }, { save: true });
+
+      // Auto-scroll back up to the mirror on smaller screens
+      if (window.innerWidth <= 720) {
+        setTimeout(() => {
+          mirrorScene.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 100);
+      }
     } catch (_) {
       setError("The mirror is unreachable. Try again when the server is online.");
     } finally {

@@ -289,6 +289,14 @@ h1 {
   transform: rotateY(180deg);
 }
 
+.mirror-scene.is-flipped .mirror-front {
+  pointer-events: none;
+}
+
+.mirror-scene:not(.is-flipped) .mirror-back {
+  pointer-events: none;
+}
+
 .mirror-front,
 .mirror-back {
   position: absolute;
