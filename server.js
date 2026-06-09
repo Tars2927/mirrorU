@@ -6,7 +6,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+const Groq = require('groq-sdk');
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
@@ -99,22 +99,22 @@ function rateLimitQuote(req, res, next) {
   next();
 }
 
-// ---------- Gemini client ----------
+// ---------- Groq client ----------
 function readApiKey() {
-  const raw = process.env.GEMINI_API_KEY || process.env.API_KEY || '';
+  const raw = process.env.GROQ_API_KEY || process.env.API_KEY || '';
   const trimmed = raw.trim();
   // Treat obvious placeholders as missing so the UI/server don't lie.
   if (!trimmed) return '';
-  if (/^(your[_-]?key[_-]?here|placeholder|changeme|xxx+|sk-?xxx)/i.test(trimmed)) return '';
+  if (/^(your[_-]?key[_-]?here|placeholder|changeme|xxx+)/i.test(trimmed) && trimmed !== process.env.GROQ_API_KEY) return '';
   return trimmed;
 }
 const apiKey = readApiKey();
 if (!apiKey) {
-  console.warn('[mirror-of-truth] No real GEMINI_API_KEY/API_KEY set in .env - /api/quote will return 503 until you replace the placeholder.');
+  console.warn('[mirror-of-truth] No real GROQ_API_KEY set in .env - /api/quote will return 503 until you replace the placeholder.');
 }
-const genAI = new GoogleGenerativeAI(apiKey || 'missing-placeholder');
+const groq = new Groq({ apiKey: apiKey || 'missing-placeholder' });
 
-const MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash-lite';
+const MODEL = process.env.GROQ_MODEL || 'llama3-8b-8192';
 
 const SYSTEM_PROMPT =
   "You are a timeless voice of ancient wisdom - unflinching and merciless with truth. " +
@@ -173,18 +173,22 @@ app.post('/api/quote', rateLimitQuote, async (req, res) => {
 
   if (!apiKey) {
     return res.status(503).json({
-      error: 'Server is missing a real GEMINI_API_KEY. Edit the .env file and restart.',
+      error: 'Server is missing a real GROQ_API_KEY. Edit the .env file and restart.',
     });
   }
 
   try {
-    const model = genAI.getGenerativeModel({
+    const completion = await groq.chat.completions.create({
       model: MODEL,
-      systemInstruction: SYSTEM_PROMPT
+      messages: [
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: buildUserPrompt(payload) }
+      ],
+      temperature: 0.7,
+      max_tokens: 500,
     });
     
-    const result = await model.generateContent(buildUserPrompt(payload));
-    const raw = result.response.text();
+    const raw = completion.choices[0]?.message?.content || '';
     const { quote, attr } = splitQuoteAndAttr(raw);
 
     if (!quote) {
