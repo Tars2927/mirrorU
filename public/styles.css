@@ -721,13 +721,29 @@ h1 {
   }
 }
 
-.mirror-back-content blockquote {
+.mirror-back-content {
   flex-grow: 1;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  overflow-y: auto;
+  padding-right: 8px; /* space for scrollbar */
+}
+
+/* Custom subtle scrollbar for the mirror back */
+.mirror-back-content::-webkit-scrollbar {
+  width: 4px;
+}
+.mirror-back-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+.mirror-back-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.mirror-back-content blockquote {
+  margin: auto 0 24px;
   text-align: center;
-  margin: 10px 0 24px;
   color: #fff;
   font-size: 1.6rem;
   font-weight: 500;
